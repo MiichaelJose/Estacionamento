@@ -11,7 +11,7 @@ public class ProcessaPatrimonios {
 	
 	private EstacionamentoDAO  ed;
 	
-	public double getValorTotal() {
+	public double getValorTotal() {		// total clients
 		double a = 1000;
 		return a;
 	}

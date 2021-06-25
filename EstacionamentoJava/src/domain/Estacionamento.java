@@ -12,22 +12,44 @@ public class Estacionamento {
 	private String horaSaida;
 	private double valorHora;
 	
-	Estacionamento () {
-		
+	
+	
+	
+	
+	public Estacionamento(String vaga, String placa, Date data, String horaEntrada, String horaSaida,
+			double valorHora) {
+		this.vaga = vaga;
+		this.placa = placa;
+		this.data = data;
+		this.horaEntrada = horaEntrada;
+		this.horaSaida = horaSaida;
+		this.valorHora = valorHora;
 	}
-	
-	
-	private double getTotal() {
-		double b = 10;
-		return b;
+
+
+
+
+
+	private double getTotal() {	//calcular o total de hrs em dinheiro
+								// (horasaida - horaentrada)* valorHora
+		return 0;
 	}
 
 	
 	
+
+
+	
+
+
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(data, horaEntrada, horaSaida, placa, vaga, valorHora);
+		return Objects.hash(data, placa);
 	}
+
+
+
 
 
 	@Override
@@ -39,16 +61,17 @@ public class Estacionamento {
 		if (getClass() != obj.getClass())
 			return false;
 		Estacionamento other = (Estacionamento) obj;
-		return Objects.equals(data, other.data) && Objects.equals(horaEntrada, other.horaEntrada)
-				&& Objects.equals(horaSaida, other.horaSaida) && Objects.equals(placa, other.placa)
-				&& Objects.equals(vaga, other.vaga)
-				&& Double.doubleToLongBits(valorHora) == Double.doubleToLongBits(other.valorHora);
+		return Objects.equals(data, other.data) && Objects.equals(placa, other.placa);
 	}
+
+
+
+
 
 	@Override
 	public String toString() {
-		return "Estacionamento [vaga=" + vaga + ", placa=" + placa + ", data=" + data + ", horaEntrada=" + horaEntrada
-				+ ", horaSaida=" + horaSaida + ", valorHora=" + valorHora + "]";
+		return "\t" + vaga + "\t" + placa + "\t" + data + "\t" + horaEntrada
+				+ "\t" + horaSaida + "\t" + valorHora + "\n";
 	}
 
 	public String getVaga() {
