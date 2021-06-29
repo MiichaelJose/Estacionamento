@@ -1,70 +1,42 @@
 package client;
 
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
 
-import java.awt.event.ActionEvent;
-import java.util.Date;
-import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 
-public class FormEstacionamento {
-	
-	private JPanel panel;
-	private JTextField vaga, placa, data, horaEntrada, horaSaida;
-	private JButton salvar, cancelar, entrada, saida, excluir, listarEstacionados, ListarPorData;
-	private JTextArea texto;
-	
-	
-	public void actionPerformed(ActionEvent e) {
-		
-	}
-	
-	public String listarTodos() {
-		String a = "0";
-		return a;
-	}
-	
-	public String listarPorData(Date datal) {
-		String a = "0";
-		return a;
-	}
-	
-	public String listarEstacionados() {
-		String a = "0";
-		return a;
-	}
-	
-	public void adicionar() {
-		
-	}
-	
-	public void alterar() {
-		
-	}
-	
-	public void excluir() {
-		
-	}
-	
-	public String obterData() {
-		String a = "0";
-		return a;
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+public class FormEstacionamento extends JFrame {
+
+	private JPanel contentPane;
+
+	/**
+	 * Launch the application.
+	 */
 	public static void main(String[] args) {
-		
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					FormEstacionamento frame = new FormEstacionamento();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
 
+	/**
+	 * Create the frame.
+	 */
+	public FormEstacionamento() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 450, 300);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setLayout(new BorderLayout(0, 0));
+		setContentPane(contentPane);
 	}
 
 }

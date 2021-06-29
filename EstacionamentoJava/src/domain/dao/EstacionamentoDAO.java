@@ -20,9 +20,10 @@ public class EstacionamentoDAO {
 	/*
 	public ArrayList <Estacionamento> abrir() {
 		
-		return ;
-	}
-	*/
+		return 0;
+	}*/
+	
+	
 	public boolean salvar(ArrayList <Estacionamento> es) {	// retorna true ou false se salvou
 		return true;
 	}

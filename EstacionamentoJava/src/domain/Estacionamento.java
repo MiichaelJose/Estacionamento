@@ -29,10 +29,12 @@ public class Estacionamento {
 
 
 
-
-	private double getTotal() {	//calcular o total de hrs em dinheiro
-								// (horasaida - horaentrada)* valorHora
-		return 0;
+	private double getTotal() {						
+		//calcular o total de hrs em dinheiro
+		// (horasaida - horaentrada)* valorHora
+		double var = Double.parseDouble(horaEntrada);
+		double var2 = Double.parseDouble(horaSaida);						
+		return (var - var2) * valorHora;
 	}
 
 	
@@ -71,7 +73,7 @@ public class Estacionamento {
 	@Override
 	public String toString() {
 		return "\t" + vaga + "\t" + placa + "\t" + data + "\t" + horaEntrada
-				+ "\t" + horaSaida + "\t" + valorHora + "\n";
+				+ "\t" + horaSaida + "\t" + valorHora + "\t"+ getTotal() +"\t\n";
 	}
 
 	public String getVaga() {

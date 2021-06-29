@@ -7,20 +7,26 @@ import domain.dao.EstacionamentoDAO;
 
 public class ProcessaPatrimonios {
 	
-	public ArrayList <Estacionamento> estacionamentos;
+	public static ArrayList <Estacionamento> estacionamentos = new ArrayList <>();
 	
-	private EstacionamentoDAO  ed;
+	private static EstacionamentoDAO  ed;	// Para utilizar os metodo do pacote DAO	
 	
 	public double getValorTotal() {		// total clients
-		double a = 1000;
-		return a;
+		double precoHoraTotal = 0;
+		for (Estacionamento e : estacionamentos) {	// percorrer lista e acrescentar em uma variavel
+			precoHoraTotal += e.getValorHora();
+		}
+		return precoHoraTotal;
 	}
 	
-	public boolean salvar() {
+	
+	// EstacionamentoDAO
+	public static boolean salvar() {
+		
 		return true;
 	}
 	
-	public void abrir() {
+	public static void abrir() {
 		
 	}
 	
