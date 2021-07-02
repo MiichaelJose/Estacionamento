@@ -61,23 +61,23 @@ public class FormEstacionamento extends JFrame{
 		 * acum;
 		 */
 	}
-	/*
-	public static String listarPorData(String data) {
-		Estacionamento a = new Estacionamento();		//String dataFormatada = sdf.format(data);
+	
+	public static String listarPorData(Date data) {
+				//String dataFormatada = sdf.format(data);
     	String acum = "";
 		for (Estacionamento e:ProcessaEstacionamentos.estacionamentos) {
-			if () {
-				
+			if (e.getData().equals(data)) {
+				acum += e;
 			}
         }
         return acum;
-    }*/
+    }
 
 	public String listarEstacionados() {
-		Estacionamento b = new Estacionamento();
+		
 		String acum = "";
 		for (Estacionamento e : ProcessaEstacionamentos.estacionamentos){
-			if ((b.getHoraSaida()) == "Estacionado" ) {
+			if ((e.getHoraSaida()).equals("Estacionado")) {
 				acum += e;
 			}
 		}
@@ -356,8 +356,7 @@ public class FormEstacionamento extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				if (e.getSource() == botSalvar) {
 					ProcessaEstacionamentos.salvar();
-				}
-				
+				}		
 			}
 		});
 		
@@ -365,8 +364,7 @@ public class FormEstacionamento extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				if (e.getSource() == Adicionar) {
 					adicionar();
-				}
-				
+				}			
 			}
 		});
 		
@@ -374,8 +372,7 @@ public class FormEstacionamento extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				if (e.getSource() == Alterar) {
 					alterar();
-				}
-				
+				}				
 			}
 		});
 		
@@ -383,17 +380,15 @@ public class FormEstacionamento extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				if (e.getSource() == Remover) {
 					excluir();
-				}
-				
+				}				
 			}
 		});
 		
 		botData.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (e.getSource() == botData) {
-					//textArea.setText(listarPorData(caixaData03.getText()));
-				}
-				
+					textArea.setText(listarPorData(formata(caixaData03.getText())));
+				}	
 			}
 		});
 		
@@ -401,8 +396,7 @@ public class FormEstacionamento extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				if (e.getSource() == botSair) {
 					dispose();
-				}
-				
+				}	
 			}
 		});
 		
@@ -412,17 +406,14 @@ public class FormEstacionamento extends JFrame{
 					textArea.setText(listarTodos());
 					
 				}
-				
 			}
 		});
 		
 		botEstacionados.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (e.getSource() == botEstacionados) {
-					textArea.setText(listarEstacionados());
-					
-				}
-				
+					textArea.setText(listarEstacionados());					
+				}	
 			}
 		});
 	}
