@@ -1,5 +1,6 @@
 package domain;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 
@@ -11,24 +12,30 @@ public class Estacionamento {
 	private String horaEntrada;
 	private String horaSaida;
 	private double valorHora;
+	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 	
+	public Estacionamento() {
+		
+	}
 	
+	public Estacionamento(Date data) {
+		this.data = data;
+	}
 	
+	public Estacionamento(String placa, Date data) {
+		this.placa = placa;
+		this.data = data;
+	}
 	
-	
-	public Estacionamento(String vaga, String placa, Date data, String horaEntrada, String horaSaida,
-			double valorHora) {
+	public Estacionamento(String vaga, String placa, Date data, String horaEntrada, String horaSaida, double valorHora) {
 		this.vaga = vaga;
 		this.placa = placa;
 		this.data = data;
-		this.horaEntrada = horaEntrada;
 		this.horaSaida = horaSaida;
+		this.horaEntrada = horaEntrada;
 		this.valorHora = valorHora;
 	}
-
-
-
-
+	/*
 	private double getTotal() {						
 		//calcular o total de hrs em dinheiro
 		// (horasaida - horaentrada)* valorHora
@@ -36,23 +43,11 @@ public class Estacionamento {
 		double var2 = Double.parseDouble(horaSaida);						
 		return (var - var2) * valorHora;
 	}
-
-	
-	
-
-
-	
-
-
-
+	*/
 	@Override
 	public int hashCode() {
 		return Objects.hash(data, placa);
 	}
-
-
-
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -66,16 +61,19 @@ public class Estacionamento {
 		return Objects.equals(data, other.data) && Objects.equals(placa, other.placa);
 	}
 
-
-
-
-
 	@Override
 	public String toString() {
-		return "\t" + vaga + "\t" + placa + "\t" + data + "\t" + horaEntrada
-				+ "\t" + horaSaida + "\t" + valorHora + "\t"+ getTotal() +"\t\n";
+		return vaga + "\t" + placa + "\t" + sdf.format(data) + "\t" + horaEntrada
+				+ "\t" + horaSaida + "\t" + valorHora + "\t\n";
 	}
-
+	
+	
+	public String toCSV() {
+		return vaga + ";" + placa + ";" + sdf.format(data) + ";" + horaEntrada
+				+ ";" + horaSaida + ";" + valorHora + "\n";
+	}
+	// GETTERS AND SETTERS
+	
 	public String getVaga() {
 		return vaga;
 	}
