@@ -9,8 +9,8 @@ public class Estacionamento {
 	private String vaga;
 	private String placa;
 	private Date data;
-	private String horaEntrada;
-	private String horaSaida;
+	private String horaEntrada, hE;
+	private String horaSaida, hS;
 	private double valorHora;
 	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 	
@@ -35,15 +35,25 @@ public class Estacionamento {
 		this.horaEntrada = horaEntrada;
 		this.valorHora = valorHora;
 	}
-	/*
-	private double getTotal() {						
-		//calcular o total de hrs em dinheiro
-		// (horasaida - horaentrada)* valorHora
-		double var = Double.parseDouble(horaEntrada);
-		double var2 = Double.parseDouble(horaSaida);						
-		return (var - var2) * valorHora;
+	
+	private double getTotal() {
+		double result = 0;
+		if (horaSaida.equals("Estacionado")) {
+			horaSaida = "Estacionado";
+		}else {
+			hE = horaEntrada.replaceAll(":",".");
+			hS = horaSaida.replaceAll(":",".");
+			double var = Double.parseDouble(hS);
+			double var2 = Double.parseDouble(hE);
+			result = (var - var2) * valorHora;
+			if (var-var2 < 0.60) {
+				result = getValorHora();	
+			}
+		}
+		
+		return result;
 	}
-	*/
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(data, placa);
@@ -64,7 +74,7 @@ public class Estacionamento {
 	@Override
 	public String toString() {
 		return vaga + "\t" + placa + "\t" + sdf.format(data) + "\t" + horaEntrada
-				+ "\t" + horaSaida + "\t" + valorHora + "\t\n";
+				+ "\t" + horaSaida + "\t" + valorHora +"\t"+String.format("%.2f",getTotal())+"\n"; // "+String.format("%.2f",getTotal())+"
 	}
 	
 	

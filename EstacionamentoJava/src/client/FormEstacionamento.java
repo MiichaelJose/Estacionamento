@@ -15,10 +15,10 @@ import java.awt.Color;
 //import javax.swing.JSeparator;
 //import javax.swing.JSplitPane;
 //import java.awt.ScrollPane;
-import javax.swing.border.MatteBorder;
+//import javax.swing.border.MatteBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.ImageIcon;
-import java.awt.SystemColor;
+//import java.awt.SystemColor;
 import javax.swing.SwingConstants;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -31,6 +31,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import controller.ProcessaEstacionamentos;
 import domain.Estacionamento;
+import javax.swing.JScrollPane;
+//import javax.swing.ScrollPaneConstants;
+import javax.swing.UIManager;
+//import java.awt.BorderLayout;
+//import java.awt.GridLayout;
+//import java.awt.CardLayout;
+//import javax.swing.JTextPane;
 //import javax.swing.JTable;
 
 public class FormEstacionamento extends JFrame{
@@ -48,22 +55,18 @@ public class FormEstacionamento extends JFrame{
 	private JTextField caixaPlaca03;
 	private JTextField caixaData02;
 	static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-
+	
+	
 	public String listarTodos() {
 		String acum = " ";
 		for (Estacionamento i : ProcessaEstacionamentos.estacionamentos) {
 			acum += i.toString();
 		}
 		return acum;
-		/*
-		 * for (int i = 0; i < ProcessaEstacionamentos.estacionamentos.size(); i++) {
-		 * acum += ProcessaEstacionamentos.estacionamentos.get(i).toString(); } return
-		 * acum;
-		 */
+		
 	}
 	
 	public static String listarPorData(Date data) {
-				//String dataFormatada = sdf.format(data);
     	String acum = "";
 		for (Estacionamento e:ProcessaEstacionamentos.estacionamentos) {
 			if (e.getData().equals(data)) {
@@ -74,7 +77,6 @@ public class FormEstacionamento extends JFrame{
     }
 
 	public String listarEstacionados() {
-		
 		String acum = "";
 		for (Estacionamento e : ProcessaEstacionamentos.estacionamentos){
 			if ((e.getHoraSaida()).equals("Estacionado")) {
@@ -86,24 +88,22 @@ public class FormEstacionamento extends JFrame{
 
 	public void adicionar() {
 		try {
-			SimpleDateFormat sdf = new SimpleDateFormat("hh:mm");
+			SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 			Date data = new Date();
+			String nao = "Estacionado";
 			String dataFormatada = sdf.format(data);
-			String vazio = "Estacionado";
 			Estacionamento e = new Estacionamento(caixaVaga.getText(), caixaPlaca01.getText(), new Date(),
-					dataFormatada, vazio, Double.parseDouble(caixaPreco.getText()));
-			System.out.println("teste");
+					dataFormatada, nao, Double.parseDouble(caixaPreco.getText()));
 			if (ProcessaEstacionamentos.estacionamentos.contains(e)) {
 				JOptionPane.showMessageDialog(this, "O carro da placa " + e.getPlaca() + " Já esta Estacionado");
-			} else { // if (e.getVaga() == caixaVaga.getText()) {
+			} else { 
 				ProcessaEstacionamentos.estacionamentos.add(e);
-				System.out.println("Entrou no else");
+				JOptionPane.showMessageDialog(this,"Carro adicionado com Sucesso !!!");
 				textArea.setText(listarTodos());
 			}
 
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(this, "ERRROR");
-			System.out.println("Erro " + e);
+			JOptionPane.showMessageDialog(this, "ERROR");
 		}
 	}
 
@@ -117,12 +117,11 @@ public class FormEstacionamento extends JFrame{
 	}
 
 	public void alterar() {
-		Estacionamento eAlterar = new Estacionamento(caixaPlaca02.getText(), formata(caixaData01.getText())); 
-																											
+		Estacionamento eAlterar = new Estacionamento(caixaPlaca02.getText(), formata(caixaData01.getText())); 																					
 		if (ProcessaEstacionamentos.estacionamentos.contains(eAlterar)) {
-			ProcessaEstacionamentos.estacionamentos.get(ProcessaEstacionamentos.estacionamentos.indexOf(eAlterar))
-					.setHoraSaida(caixaSaida.getText());
-			textArea.setText(listarTodos());										
+			ProcessaEstacionamentos.estacionamentos.get(ProcessaEstacionamentos.estacionamentos.indexOf(eAlterar)).setHoraSaida(caixaSaida.getText());
+			JOptionPane.showMessageDialog(this, "Alterado !!!");
+			textArea.setText(listarTodos());							
 		} else {
 			JOptionPane.showMessageDialog(this, "Carro não encontrado");
 		}
@@ -135,9 +134,8 @@ public class FormEstacionamento extends JFrame{
 			JOptionPane.showMessageDialog(this, "Carro removido com sucesso !");
 			textArea.setText(listarTodos());
 		} else {
-			JOptionPane.showMessageDialog(this, "Carro removido com sucesso !");
+			JOptionPane.showMessageDialog(this, "Carro nao encontrado");
 		}
-
 	}
 
 	public static void main(String[] args) throws ParseException {
@@ -166,41 +164,23 @@ public class FormEstacionamento extends JFrame{
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.BLACK));
-		panel_1.setBackground(new Color(95, 158, 160));
-		panel_1.setBounds(10, 63, 569, 221);
-		contentPane.add(panel_1);
-		panel_1.setLayout(null);
-
-		JPanel panel = new JPanel();
-		panel.setBackground(SystemColor.controlHighlight);
-		panel.setBorder(new LineBorder(Color.BLACK));
-		panel.setBounds(54, 0, 467, 221);
-		panel_1.add(panel);
-		panel.setLayout(null);
-
-		textArea = new JTextArea(listarTodos());
-		textArea.setBounds(0, 0, 467, 221);
-		panel.add(textArea);
-
-		JLabel lblNewLabel = new JLabel("Placa :");
-		lblNewLabel.setFont(new Font("DialogInput", Font.PLAIN, 11));
+		JLabel lblNewLabel = new JLabel("Placa:");
+		lblNewLabel.setFont(new Font("DialogInput", Font.PLAIN, 12));
 		lblNewLabel.setForeground(Color.WHITE);
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(10, 314, 52, 15);
+		lblNewLabel.setBounds(20, 314, 52, 15);
 		contentPane.add(lblNewLabel);
 
-		JLabel lblNewLabel_1 = new JLabel("Vaga :");
-		lblNewLabel_1.setFont(new Font("DialogInput", Font.PLAIN, 11));
+		JLabel lblNewLabel_1 = new JLabel("Vaga:");
+		lblNewLabel_1.setFont(new Font("DialogInput", Font.PLAIN, 12));
 		lblNewLabel_1.setForeground(Color.WHITE);
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1.setBounds(10, 340, 52, 15);
+		lblNewLabel_1.setBounds(20, 340, 52, 15);
 		contentPane.add(lblNewLabel_1);
 
 		JButton Adicionar = new JButton("Adicinar");
 		Adicionar.setFont(new Font("SansSerif", Font.BOLD, 11));
-		Adicionar.setBackground(new Color(0, 206, 209));
+		Adicionar.setBackground(new Color(176, 196, 222));
 		Adicionar.setForeground(new Color(0, 0, 0));
 		Adicionar.setBounds(169, 365, 89, 23);
 		contentPane.add(Adicionar);
@@ -231,59 +211,59 @@ public class FormEstacionamento extends JFrame{
 		contentPane.add(caixaData01);
 		caixaData01.setColumns(10);
 
-		JLabel lblNewLabel_2 = new JLabel("Placa :");
-		lblNewLabel_2.setFont(new Font("DialogInput", Font.PLAIN, 11));
+		JLabel lblNewLabel_2 = new JLabel("Placa:");
+		lblNewLabel_2.setFont(new Font("DialogInput", Font.PLAIN, 12));
 		lblNewLabel_2.setForeground(Color.WHITE);
 		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_2.setBounds(10, 428, 52, 14);
+		lblNewLabel_2.setBounds(20, 428, 52, 14);
 		contentPane.add(lblNewLabel_2);
 
 		JLabel lblNewLabel_3 = new JLabel("Data :");
-		lblNewLabel_3.setFont(new Font("DialogInput", Font.PLAIN, 11));
+		lblNewLabel_3.setFont(new Font("DialogInput", Font.PLAIN, 12));
 		lblNewLabel_3.setForeground(Color.WHITE);
 		lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_3.setBounds(10, 26, 52, 14);
 		contentPane.add(lblNewLabel_3);
 
-		JLabel lblNewLabel_4 = new JLabel("Saida :");
-		lblNewLabel_4.setFont(new Font("DialogInput", Font.PLAIN, 11));
+		JLabel lblNewLabel_4 = new JLabel("Saida:");
+		lblNewLabel_4.setFont(new Font("DialogInput", Font.PLAIN, 12));
 		lblNewLabel_4.setForeground(Color.WHITE);
 		lblNewLabel_4.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_4.setBounds(10, 480, 52, 14);
+		lblNewLabel_4.setBounds(20, 479, 52, 14);
 		contentPane.add(lblNewLabel_4);
 
 		JButton Alterar = new JButton("Alterar");
 		Alterar.setFont(new Font("SansSerif", Font.BOLD, 11));
-		Alterar.setBackground(new Color(0, 206, 209));
+		Alterar.setBackground(new Color(176, 196, 222));
 		Alterar.setForeground(new Color(0, 0, 0));
 		Alterar.setBounds(117, 512, 89, 23);
 		contentPane.add(Alterar);
 
 		JLabel lblNewLabel_5 = new JLabel("Listagem");
-		lblNewLabel_5.setFont(new Font("Arial", Font.PLAIN, 11));
+		lblNewLabel_5.setFont(new Font("DialogInput", Font.PLAIN, 12));
 		lblNewLabel_5.setForeground(Color.WHITE);
-		lblNewLabel_5.setBounds(422, 298, 46, 14);
+		lblNewLabel_5.setBounds(411, 314, 64, 14);
 		contentPane.add(lblNewLabel_5);
 
 		JButton botTodos = new JButton("Todos");
 		botTodos.setFont(new Font("SansSerif", Font.BOLD, 11));
-		botTodos.setBackground(new Color(0, 206, 209));
+		botTodos.setBackground(new Color(176, 196, 222));
 		botTodos.setForeground(new Color(0, 0, 0));
-		botTodos.setBounds(392, 365, 107, 23);
+		botTodos.setBounds(392, 391, 107, 23);
 		contentPane.add(botTodos);
 
 		JButton botData = new JButton("Data");
 		botData.setFont(new Font("SansSerif", Font.BOLD, 11));
 		botData.setForeground(new Color(0, 0, 0));
-		botData.setBackground(new Color(0, 206, 209));
-		botData.setBounds(392, 340, 107, 23);
+		botData.setBackground(new Color(176, 196, 222));
+		botData.setBounds(392, 365, 107, 23);
 		contentPane.add(botData);
 
 		JButton botEstacionados = new JButton("Estacionado");
 		botEstacionados.setFont(new Font("SansSerif", Font.BOLD, 11));
 		botEstacionados.setForeground(new Color(0, 0, 0));
-		botEstacionados.setBackground(new Color(0, 206, 209));
-		botEstacionados.setBounds(392, 314, 107, 23);
+		botEstacionados.setBackground(new Color(176, 196, 222));
+		botEstacionados.setBounds(392, 335, 107, 23);
 		contentPane.add(botEstacionados);
 
 		caixaPreco = new JTextField();
@@ -291,18 +271,69 @@ public class FormEstacionamento extends JFrame{
 		contentPane.add(caixaPreco);
 		caixaPreco.setColumns(10);
 
-		JLabel lblNewLabel_6 = new JLabel("Pre\u00E7o  :");
+		JLabel lblNewLabel_6 = new JLabel("Pre\u00E7o:");
 		lblNewLabel_6.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_6.setForeground(Color.WHITE);
-		lblNewLabel_6.setFont(new Font("DialogInput", Font.PLAIN, 11));
-		lblNewLabel_6.setBounds(10, 369, 56, 14);
+		lblNewLabel_6.setFont(new Font("DialogInput", Font.PLAIN, 12));
+		lblNewLabel_6.setBounds(16, 366, 56, 14);
 		contentPane.add(lblNewLabel_6);
 
 		JPanel panel_2 = new JPanel();
 		panel_2.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panel_2.setBackground(Color.GRAY);
-		panel_2.setBounds(10, 51, 569, 244);
+		panel_2.setBounds(10, 51, 569, 252);
 		contentPane.add(panel_2);
+		panel_2.setLayout(null);
+				
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setViewportBorder(UIManager.getBorder("SplitPane.border"));
+		scrollPane.setBounds(0, 21, 569, 231);
+		panel_2.add(scrollPane);
+
+		textArea = new JTextArea(listarTodos());
+		scrollPane.setViewportView(textArea);
+		textArea.setFont(new Font("Berlin Sans FB", Font.BOLD | Font.ITALIC, 12));
+		
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(176, 196, 222));
+		panel.setBounds(0, 0, 569, 20);
+		panel_2.add(panel);
+		panel.setLayout(null);
+		
+		JLabel lblNewLabel_8 = new JLabel("Vaga");
+		lblNewLabel_8.setFont(new Font("Arial Black", Font.BOLD, 11));
+		lblNewLabel_8.setBounds(0, 2, 46, 20);
+		panel.add(lblNewLabel_8);
+		
+		JLabel lblNewLabel_9 = new JLabel("Placa");
+		lblNewLabel_9.setFont(new Font("Arial Black", Font.BOLD, 11));
+		lblNewLabel_9.setBounds(96, 5, 46, 14);
+		panel.add(lblNewLabel_9);
+		
+		JLabel lblNewLabel_10 = new JLabel("Data");
+		lblNewLabel_10.setFont(new Font("Arial Black", Font.BOLD, 11));
+		lblNewLabel_10.setBounds(194, 5, 46, 14);
+		panel.add(lblNewLabel_10);
+		
+		JLabel lblNewLabel_11 = new JLabel("H.Entrada");
+		lblNewLabel_11.setFont(new Font("Arial Black", Font.BOLD, 11));
+		lblNewLabel_11.setBounds(268, 6, 46, 14);
+		panel.add(lblNewLabel_11);
+		
+		JLabel lblNewLabel_12 = new JLabel("H.Saida");
+		lblNewLabel_12.setFont(new Font("Arial Black", Font.BOLD, 12));
+		lblNewLabel_12.setBounds(357, 6, 46, 14);
+		panel.add(lblNewLabel_12);
+		
+		JLabel lblNewLabel_13 = new JLabel("P.Hora");
+		lblNewLabel_13.setFont(new Font("Arial Black", Font.BOLD, 11));
+		lblNewLabel_13.setBounds(437, 6, 46, 14);
+		panel.add(lblNewLabel_13);
+		
+		JLabel lblNewLabel_14 = new JLabel("P.Total");
+		lblNewLabel_14.setFont(new Font("Arial Black", Font.BOLD, 11));
+		lblNewLabel_14.setBounds(513, 7, 46, 14);
+		panel.add(lblNewLabel_14);
 
 		JButton botSalvar = new JButton("");
 		botSalvar.setIcon(new ImageIcon(
@@ -312,7 +343,7 @@ public class FormEstacionamento extends JFrame{
 
 		JButton botSair = new JButton("Sair");
 		botSair.setFont(new Font("SansSerif", Font.BOLD, 11));
-		botSair.setBackground(new Color(0, 206, 209));
+		botSair.setBackground(new Color(176, 196, 222));
 		botSair.setForeground(new Color(0, 0, 0));
 		botSair.setBounds(494, 524, 89, 23);
 		contentPane.add(botSair);
@@ -322,11 +353,11 @@ public class FormEstacionamento extends JFrame{
 		caixaSaida.setBounds(69, 479, 189, 15);
 		contentPane.add(caixaSaida);
 
-		JLabel lblNewLabel_2_1 = new JLabel("Data :");
+		JLabel lblNewLabel_2_1 = new JLabel("Data:");
 		lblNewLabel_2_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_2_1.setForeground(Color.WHITE);
-		lblNewLabel_2_1.setFont(new Font("DialogInput", Font.PLAIN, 11));
-		lblNewLabel_2_1.setBounds(10, 454, 52, 14);
+		lblNewLabel_2_1.setFont(new Font("DialogInput", Font.PLAIN, 12));
+		lblNewLabel_2_1.setBounds(20, 453, 52, 14);
 		contentPane.add(lblNewLabel_2_1);
 
 		caixaPlaca03 = new JTextField();
@@ -342,7 +373,7 @@ public class FormEstacionamento extends JFrame{
 		JButton Remover = new JButton("Remover");
 		Remover.setForeground(new Color(0, 0, 0));
 		Remover.setFont(new Font("SansSerif", Font.BOLD, 11));
-		Remover.setBackground(new Color(0, 206, 209));
+		Remover.setBackground(new Color(176, 196, 222));
 		Remover.setBounds(310, 476, 89, 23);
 		contentPane.add(Remover);
 
